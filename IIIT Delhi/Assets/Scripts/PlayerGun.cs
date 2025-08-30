@@ -11,15 +11,15 @@ public class PlayerGun : MonoBehaviour
 
     [Header("Transforms")]
     [Tooltip("Transform that points/aims at the target (assign your gun transform)")]
-    public Transform gunTransform;      // used to aim (was firePoint)
+    public Transform gunTransform;      // used to aim
     [Tooltip("Transform where bullets spawn (assign spawn point)")]
     public Transform spawnPoint;       // used to instantiate projectiles
 
     [Header("Fire settings")]
     [Tooltip("Shots per second")]
-    public float rateOfFire = 2f;
+    public float rateOfFire = 2f;      // manager will set this when upgraded 
     [Tooltip("Damage value passed to projectile")]
-    public float damage = 10f;
+    public float damage = 10f;         // manager will set this when upgraded
 
     [Header("Projectile")]
     public GameObject projectilePrefab;      // assign prefab in Inspector
@@ -88,8 +88,17 @@ public class PlayerGun : MonoBehaviour
         if (projectilePrefab == null || sp == null) return;
 
         GameObject p = Instantiate(projectilePrefab, sp.position, Quaternion.identity);
+
         // align to direction (assumes projectile sprite faces right)
         p.transform.right = dir;
+
+        // swap projectile sprite according to current upgrade level (if manager exists)
+        if (UpgradeManager.I != null)
+        {
+            Sprite newSprite = UpgradeManager.I.GetProjectileSpriteForDamageLevel(UpgradeManager.I.gunDamageLevel);
+            var sr = p.GetComponent<SpriteRenderer>();
+            if (sr != null && newSprite != null) sr.sprite = newSprite;
+        }
 
         // configure projectile
         Projectile proj = p.GetComponent<Projectile>();
