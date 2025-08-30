@@ -54,8 +54,8 @@ public class Board : MonoBehaviour
     public void GameOver()
     {
         tilemap.ClearAllTiles();
-
-        // Do anything else you want on game over here..
+        if (GameManager.I != null)
+            GameManager.I.GameOver();
     }
 
     public void Set(Piece piece)

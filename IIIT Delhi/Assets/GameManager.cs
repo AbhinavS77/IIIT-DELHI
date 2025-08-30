@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager I;
@@ -16,14 +18,22 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // or show UI
         ShowGameOver();
     }
-    
+
     public void ShowGameOver()
     {
-        Debug.Log("Game Over!"); // Replace with actual UI logic
+        Debug.Log("Game Over!");
+        GameOverUI.SetActive(true); // Replace with actual UI logic
     }
 
     public int GetScore()
     {
         return board != null ? board.score : 0;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        IsGameOver = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
