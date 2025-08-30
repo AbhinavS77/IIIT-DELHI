@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
         }
     }
 
+    public int score { get; private set; }
+
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
@@ -157,6 +159,8 @@ public class Board : MonoBehaviour
 
             row++;
         }
+
+        score += 100; // Add points for each line cleared
     }
 
 }
