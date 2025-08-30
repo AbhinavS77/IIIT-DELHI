@@ -19,15 +19,27 @@ public class ZombieManager : MonoBehaviour
     private float waveTimer;
     private bool isWaveSpawning = false;
 
+    private float initialDelay = 60f; // 1 minute delay before any spawning
+    private bool spawningStarted = false;
+
     void Start()
     {
         waveTimer = timeBetweenWaves;
-        nextSpawnTime = Time.time + spawnInterval;
+        nextSpawnTime = Time.time + initialDelay; // Delay first spawn by 1 minute
     }
 
     void Update()
     {
         if (currentWave >= totalWaves) return; // stop after all waves
+
+        // Wait for initial delay before starting spawning
+        if (!spawningStarted && Time.time >= nextSpawnTime)
+        {
+            spawningStarted = true;
+            nextSpawnTime = Time.time + spawnInterval;
+        }
+
+        if (!spawningStarted) return;
 
         // Regular spawning
         if (Time.time >= nextSpawnTime && !isWaveSpawning)
