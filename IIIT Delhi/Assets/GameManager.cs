@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; // Add this
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class GameManager : MonoBehaviour
     public bool IsGameOver { get; private set; }
     public Board board; // Assign this in the Inspector
     public GameObject GameOverUI; // Assign this in the Inspector
+    public TMP_Text scoreText; // Assign this in the Inspector
     
     private void Awake()
     {
@@ -35,5 +38,22 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         IsGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void DeductScore(int amount)
+    {
+        if (board != null)
+        {
+            board.score = Mathf.Max(0, board.score - amount);
+            UpdateScoreUI();
+        }
+    }
+
+    public void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + GetScore();
+        }
     }
 }

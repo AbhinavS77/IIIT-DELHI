@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public int score { get; private set; }
+    public int score { get; set; }
 
     private void Awake()
     {
