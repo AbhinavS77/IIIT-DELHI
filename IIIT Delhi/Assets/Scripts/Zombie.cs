@@ -25,7 +25,8 @@ public class Zombie : MonoBehaviour
             if (player == null) return;
 
             // Move towards player
-            transform.position += (Vector3)moveDirection * speed * Time.deltaTime;
+            Vector2 direction = (player.position - transform.position).normalized;
+            transform.position += (Vector3)direction * speed * Time.deltaTime;
         }
 
     // Zombie takes damage
