@@ -25,11 +25,17 @@ public class BlockSpawner : MonoBehaviour
     public void SpawnBlockUnderStack()
     {
         if (isSpawning) return;
+
+        if(GameManager.I.GetScore() >= 200){
         StartCoroutine(SpawnRoutine());
+    GameManager.I.DeductScore(200);
+}
     }
 
     IEnumerator SpawnRoutine()
     {
+
+
         isSpawning = true;
 
         if (blockPrefab == null || spawnPoint == null)
@@ -107,7 +113,7 @@ public class BlockSpawner : MonoBehaviour
 
         rb.AddForce(Vector2.up * upwardImpulse, ForceMode2D.Impulse);
 
-        // Done — do not convert to kinematic; let physics handle further interactions
+        // Done ï¿½ do not convert to kinematic; let physics handle further interactions
         isSpawning = false;
         yield return null;
     }

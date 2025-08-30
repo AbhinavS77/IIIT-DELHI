@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviour
     {
         return board != null ? board.score : 0;
     }
-
+public void Update(){
+    scoreText.text = "Score: " + GetScore();
+}
     public void RestartGame()
     {
         Time.timeScale = 1f;
