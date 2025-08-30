@@ -19,7 +19,7 @@ public class ZombieManager : MonoBehaviour
     private float waveTimer;
     private bool isWaveSpawning = false;
 
-    private float initialDelay = 60f; // 1 minute delay before any spawning
+    public float initialDelay = 60f; // 1 minute delay before any spawning
     private bool spawningStarted = false;
 
     void Start()
