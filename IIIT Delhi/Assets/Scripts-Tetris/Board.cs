@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public int score { get; set; }
+    public int score = 500; // This will show up in the Inspector
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class Board : MonoBehaviour
     }
 
     private void Start()
-    {
+    {   score = 500;
         SpawnPiece();
     }
 
@@ -161,6 +161,8 @@ public class Board : MonoBehaviour
         }
 
         score += 100; // Add points for each line cleared
+        if (GameManager.I != null)
+            GameManager.I.UpdateScoreUI(); // Update score UI on increase
     }
 
 }

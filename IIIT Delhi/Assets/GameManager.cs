@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         if (board != null)
         {
             board.score = Mathf.Max(0, board.score - amount);
-            UpdateScoreUI();
+            UpdateScoreUI(); // Update score UI on deduction
         }
     }
 
