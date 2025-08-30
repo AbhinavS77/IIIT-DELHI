@@ -4,8 +4,8 @@ public class Zombie : MonoBehaviour
 {
     [Header("Zombie Stats")]
     public float speed = 2f;
-    public int damage = 10;
-    public int health = 50;
+    public float damage = 10f;
+    public float health = 50f;
 
     private Transform player;
 
@@ -20,14 +20,15 @@ public class Zombie : MonoBehaviour
         gameObject.tag = "Zombie";
     }
 
-        void Update()
-        {
-            if (player == null) return;
+    void Update()
+    {
+        if (player == null) return;
 
-            // Move towards player
-            Vector2 direction = (player.position - transform.position).normalized;
-            transform.position += (Vector3)direction * speed * Time.deltaTime;
-        }
+        // Move towards player only in x direction
+        Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, transform.position.z);
+        Vector2 direction = (targetPosition - transform.position).normalized;
+        transform.position += (Vector3)direction * speed * Time.deltaTime;
+    }
 
     // Zombie takes damage
     public void GetDamage(int dmg)
@@ -45,16 +46,19 @@ public class Zombie : MonoBehaviour
     }
 
     // When zombie touches the player
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("bullet"))
         {
-            // Call Player script’s TakeDamage method
-            Player playerScript = collision.gameObject.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                playerScript.TakeDamage(damage);
-            }
+            GetDamage(25); // Assuming each bullet does 25 damage
+        }
+
+        if (collision.gameObject.CompareTag("Block"))
+        {
+            // Call Block's TakeDamage method
+            BlockHealth block = collision.gameObject.GetComponent<BlockHealth>();
+            block.TakeDamage(damage); //typecast to float  
+
         }
     }
 }
