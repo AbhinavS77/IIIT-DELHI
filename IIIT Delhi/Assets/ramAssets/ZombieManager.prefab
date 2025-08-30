@@ -48,11 +48,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawner: {fileID: 9126877403422458079}
   spawnInterval: 3
-  spawnRateMultiplier: 0.8
-  totalWaves: 3
+  spawnRateMultiplier: 1.3
+  totalWaves: 5
   timeBetweenWaves: 5
   waveZombieCount: 10
   burstSpawnDelay: 0.2
+  initialDelay: 60
 --- !u!1 &2706212032857545762
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +80,7 @@ Transform:
   m_GameObject: {fileID: 2706212032857545762}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.77, y: 1.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,7 +126,7 @@ Transform:
   m_GameObject: {fileID: 3301250685284704404}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: -4, z: 0}
+  m_LocalPosition: {x: 5.55, y: -6.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

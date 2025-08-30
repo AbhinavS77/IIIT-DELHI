@@ -66,6 +66,7 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other == null) return;
 
         // check tags
@@ -98,6 +99,10 @@ public class Projectile : MonoBehaviour
                 Destroy(gameObject);
                 return;
             }
+        }
+
+        if(other.tag == "Zombie" || other.tag == "ground"){
+Destroy(this.gameObject);
         }
     }
 
