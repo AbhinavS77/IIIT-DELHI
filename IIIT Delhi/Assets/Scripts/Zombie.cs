@@ -20,14 +20,13 @@ public class Zombie : MonoBehaviour
         gameObject.tag = "Zombie";
     }
 
-    void Update()
-    {
-        if (player == null) return;
+        void Update()
+        {
+            if (player == null) return;
 
-        // Move towards player
-        Vector2 direction = (player.position - transform.position).normalized;
-        transform.position += (Vector3)direction * speed * Time.deltaTime;
-    }
+            // Move towards player
+            transform.position += (Vector3)moveDirection * speed * Time.deltaTime;
+        }
 
     // Zombie takes damage
     public void GetDamage(int dmg)
