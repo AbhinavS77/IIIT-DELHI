@@ -7,6 +7,9 @@ TagManager:
   - enemy
   - Enemy
   - Block
+  - zombie
+  - ground
+  - bullet
   layers:
   - Default
   - TransparentFX

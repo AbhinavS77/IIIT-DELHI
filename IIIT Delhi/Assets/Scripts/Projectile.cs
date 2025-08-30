@@ -31,6 +31,8 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
+
+        transform.rotation *= Quaternion.Euler(0, 0, 1);
         // Optional: you can add code here for homing, effects, etc.
     }
     // call from PlayerGun when the projectile is spawned

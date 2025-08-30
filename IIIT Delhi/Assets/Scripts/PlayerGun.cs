@@ -9,8 +9,13 @@ public class PlayerGun : MonoBehaviour
     [Tooltip("How far the player can detect zombies")]
     public float detectionRadius = 12f;
 
+    [Header("Transforms")]
+    [Tooltip("Transform that points/aims at the target (assign your gun transform)")]
+    public Transform gunTransform;      // used to aim (was firePoint)
+    [Tooltip("Transform where bullets spawn (assign spawn point)")]
+    public Transform spawnPoint;       // used to instantiate projectiles
+
     [Header("Fire settings")]
-    public Transform firePoint;              // assign in Inspector
     [Tooltip("Shots per second")]
     public float rateOfFire = 2f;
     [Tooltip("Damage value passed to projectile")]
@@ -37,9 +42,12 @@ public class PlayerGun : MonoBehaviour
         float dist = Vector2.Distance(transform.position, nearest.transform.position);
         if (dist > detectionRadius) return;
 
-        // aim the firePoint toward the target (assumes sprite faces right)
-        Vector3 dir = (nearest.transform.position - firePoint.position).normalized;
-        if (firePoint != null) firePoint.right = dir;
+        // determine which transform to use to aim (prefer gunTransform)
+        Transform aimTransform = gunTransform != null ? gunTransform : (spawnPoint != null ? spawnPoint : transform);
+
+        // aim the gunTransform toward the target (assumes sprite faces right)
+        Vector3 dir = (nearest.transform.position - aimTransform.position).normalized;
+        if (gunTransform != null) gunTransform.right = dir;
 
         // auto-fire
         if (cooldown <= 0f)
@@ -56,7 +64,8 @@ public class PlayerGun : MonoBehaviour
 
         GameObject best = null;
         float bestDist = float.MaxValue;
-        Vector3 pos = firePoint != null ? firePoint.position : transform.position;
+        // use gunTransform position for distance checks if available, else spawnPoint, else this.transform
+        Vector3 pos = gunTransform != null ? gunTransform.position : (spawnPoint != null ? spawnPoint.position : transform.position);
 
         foreach (var g in all)
         {
@@ -74,9 +83,11 @@ public class PlayerGun : MonoBehaviour
 
     void Shoot(Vector3 dir)
     {
-        if (projectilePrefab == null || firePoint == null) return;
+        // prefer spawnPoint for spawn position; fallback to gunTransform or this.transform
+        Transform sp = spawnPoint != null ? spawnPoint : (gunTransform != null ? gunTransform : transform);
+        if (projectilePrefab == null || sp == null) return;
 
-        GameObject p = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        GameObject p = Instantiate(projectilePrefab, sp.position, Quaternion.identity);
         // align to direction (assumes projectile sprite faces right)
         p.transform.right = dir;
 
@@ -96,15 +107,23 @@ public class PlayerGun : MonoBehaviour
         // p.tag = "PlayerProjectile";
     }
 
-    // draw detection radius in editor
+    // draw detection radius and helper gizmos in editor
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        if (firePoint != null)
+
+        if (gunTransform != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(firePoint.position, firePoint.position + (firePoint.right * 0.6f));
+            Gizmos.DrawLine(gunTransform.position, gunTransform.position + (gunTransform.right * 0.6f));
+            Gizmos.DrawWireSphere(gunTransform.position, 0.08f);
+        }
+
+        if (spawnPoint != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(spawnPoint.position, 0.06f);
         }
     }
 }
