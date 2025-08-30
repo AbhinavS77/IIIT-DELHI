@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
         }
     }
 
+    public int score { get; private set; }
+
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
@@ -52,8 +54,8 @@ public class Board : MonoBehaviour
     public void GameOver()
     {
         tilemap.ClearAllTiles();
-
-        // Do anything else you want on game over here..
+        if (GameManager.I != null)
+            GameManager.I.GameOver();
     }
 
     public void Set(Piece piece)
@@ -157,6 +159,8 @@ public class Board : MonoBehaviour
 
             row++;
         }
+
+        score += 100; // Add points for each line cleared
     }
 
 }
